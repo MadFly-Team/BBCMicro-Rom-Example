@@ -41,7 +41,7 @@ Navigate to the 'build' directory and run 'builddisk.bat'
 
 The command line used in the batch file is
 
-> beebasm -i SHelpROM.asm -di romstart.ssd -do SHelpRom.ssd -opt 2 -v > build.log
+> beebasm -i SHelpROM.asm -do SHelpRom.ssd -opt 2 -v > build.log
 
 ## Run with Beebem
 
