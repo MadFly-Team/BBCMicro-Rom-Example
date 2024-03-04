@@ -3,13 +3,9 @@ Small example of developing a ROM, built with BeebAsm. Tested on a BBC-B, BBC-B+
 
 ## Images
 
-./images/bbcrom1.png
-./images/bbcrom2.png
-./images/bbcrom3.png
-
-
-
-
+![Running on a BBC Master](./images/bbcrom1.png)
+![Simple build](./images/bbcrom2.png)
+![Showing a portion of the source](./images/bbcrom3.png)
 
 
 ## Build
