@@ -1,8 +1,8 @@
 \*---------------------------------------------------------------------------
-\*  file:           SHelpROM.asm
-\*  Description:    A simple ROM image containining example commands
-\*  Date:           2022-02-20 10:20:00
-\*  Copywrite:      (C)2024 Neil Beresford
+\  file:           SHelpROM.asm
+\  Description:    A simple ROM image containining example commands
+\  Date:           2024-02-20 10:20:00
+\  Copywrite:      (C) 2024 Neil Beresford
 \
 \  Notes:
 \  Assember    - BeebASM
@@ -47,10 +47,10 @@ osrdch = &FFE0  \ OSRDCH - Read character from keyboard
 SERVICE_HELP = 9  \ HELP service call
 SERVICE_CMD  = 4  \ Command service call
 
-\ ZERO PAAGE variables
-TEMPPTRL = &70   \ Temporary pointer
-TEMPPTRH = &71   \ Temporary pointer
-TEMPSTORE= &73   \ Temporary storage
+\ ZERO PAGE usage
+TEMPPTRL = &A8   \ Temporary pointer low byte
+TEMPPTRH = &A9   \ Temporary pointer high byte
+TEMPSTORE= &AA   \ Temporary storage
 COMLINE  = &F2   \ Command line buffer lowbyte
 
 \---------------------------------------------------------------------------
@@ -112,7 +112,7 @@ ENDMACRO
     EQUS "HELPROM (Neil Beresford)"
     EQUB 0
 .version                        \ Version number 
-    EQUS " 1.0.0"
+    EQUS " 1.0.1"
     EQUB 0 
 .offset                         \ Copywrite message
     EQUB 0
@@ -218,11 +218,11 @@ ENDMACRO
     TAY
     JMP done
 .doCall
-    STA &39             \ A points to the high byte of the command function
-    INX                 \ store at ZPAGE &39
+    STA TEMPPTRH        \ A points to the high byte of the command function
+    INX                 \ store at ZPAGE TEMPPTRH
     LDA commands,X      \ A now points to the low byte of the command function
-    STA &38             \ store at ZPAGE &38
-    JMP (&38)           \ Jump to the command function
+    STA TEMPPTRL        \ store at ZPAGE TEMPPTRL
+    JMP (TEMPPTRL)      \ Jump to the command function
 
 \---------------------------------------------------------------------------
 \ Misc functionality
@@ -237,7 +237,7 @@ ENDMACRO
     BEQ end
     JSR osasci
     JMP loop
-.end    
+.end
     RTS
 }
 
@@ -249,9 +249,9 @@ ENDMACRO
 \ CMDA function
 \ Called when the command '*CMDA' is passed to the ROM
 .cmdAprocess
-    SETPTR cm1, TEMPPTRL, TEMPPTRH
+    SETPTR cm1, TEMPPTRL, TEMPPTRH \ Just display message and return
     JSR printMessage
-    PLA
+    PLA                            \ sort out the stack
     TAY
     POPALL
     LDA #0
@@ -260,9 +260,9 @@ ENDMACRO
 \ CMDB function
 \ Called when the command '*CMDB' is passed to the ROM
 .cmdBprocess
-    SETPTR cm2, TEMPPTRL, TEMPPTRH
+    SETPTR cm2, TEMPPTRL, TEMPPTRH \ Just display message and return
     JSR printMessage
-    PLA
+    PLA                            \ sort out the stack
     TAY
     POPALL
     LDA #0
@@ -271,9 +271,9 @@ ENDMACRO
 \ CMDC function
 \ Called when the command '*CMDC' is passed to the ROM
 .cmdCprocess
-    SETPTR cm3, TEMPPTRL, TEMPPTRH
+    SETPTR cm3, TEMPPTRL, TEMPPTRH \ Just display message and return
     JSR printMessage
-    PLA
+    PLA                            \ sort out the stack
     TAY
     POPALL
     LDA #0
@@ -290,11 +290,10 @@ ENDMACRO
 .message
     EQUB   13
     EQUS   "HELPROM 1.0 (C) Neil Beresford", 13,13
-    EQUS   "The following commands are available", 13
-    EQUS   "within this ROM", 13,13
+    EQUS   "This ROM contains the following commands -", 13, 13
     EQUS   "  CMDA - description for CMDA", 13
     EQUS   "  CMDB - description for CMDB", 13
-    EQUS   "  CMDC - description for CMCC", 13
+    EQUS   "  CMDC - description for CMDC", 13
     EQUB   13, 0
 
 .helpMessage
@@ -329,6 +328,6 @@ ENDMACRO
 
 SAVE "HELPROM", start, end
 
-\*---------------------------------------------------------------------------
-\*  End of file: SHelpROM.asm
-\*--------------------------------------------------------------------------- 
+\---------------------------------------------------------------------------
+\  End of file: SHelpROM.asm
+\-------------------------------------------------------------------------- 
