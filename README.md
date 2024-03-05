@@ -1,8 +1,5 @@
 <h1>BBCMicro-Rom-Example</h1>
 
-
-{{TOC}}
-
 ## What is it?
 This is a small example of developing a ROM in 6502 assembler, built with BeebAsm. The ROM image has been tested on a BBC-B, BBC-B+,BBC Master (MOS 3.2 &amp; 3.5) and of course Beebem
 
