@@ -6,7 +6,7 @@
 ## What is it?
 This is a small example of developing a ROM in 6502 assembler, built with BeebAsm. The ROM image has been tested on a BBC-B, BBC-B+,BBC Master (MOS 3.2 &amp; 3.5) and of course Beebem
 
-This example ROM handles the system help service requests and also scans the name of any unrecognized commands (star commands). I have commented the source and hopefully you should e able to follow. It's not high optimized code, it has been written clearly and is to be used as a starting point.  
+This example ROM handles the system help service requests and also scans the name of any unrecognized commands (star commands). I have commented the source and hopefully you should be able to follow. It's not high optimized code, it has been written clearly and is to be used as a starting point.  
 
 ## Images
 
@@ -41,7 +41,7 @@ Navigate to the 'build' directory and run 'builddisk.bat'
 
 The command line used in the batch file is
 
-> beebasm -i SHelpROM.asm -di romstart.ssd -do SHelpRom.ssd -opt 2 -v > build.log
+> beebasm -i SHelpROM.asm -do SHelpRom.ssd -opt 2 -v > build.log
 
 ## Run with Beebem
 
